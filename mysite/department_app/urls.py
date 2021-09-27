@@ -1,9 +1,13 @@
 from django.urls import path
-
+from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 app_name = 'department_app'
 urlpatterns = [
+    path('departmentrest/', views.DepartmentList.as_view()),
+    path('departmentrest/<int:pk>/', views.DepartmentDetail.as_view()),
+    path('employeerest/', views.EmployeeList.as_view()),
+    path('employeerest/<int:pk>/', views.EmployeeDetail.as_view()),
     path('',views.departments, name='departments'),
     path('<int:department_id>/', views.department, name='department'),
     path('delete/<int:department_id>/', views.delete_department, name='department_app'),
