@@ -6,13 +6,7 @@ python:
 services: mysql
 
 env:
-  global:
-    - DJANGO_SETTINGS_MODULE="mysite.settings"
-    - PYTHONPATH="/home/travis/build/klebanoff/python-self-study-project"
-    - PIP_USE_MIRRORS=true
-    - BUILD_ON_TRAVIS=true
-  matrix:
-    - DJANGO=3.2.7 DB=mysql
+    - DJANGO=3.2.7 DB=sqlite3
 
 #commands to install dependencies
 install:
@@ -21,10 +15,7 @@ install:
 
 before_script:
   - cd mysite
-  - mysql -e 'create database travis_ci_db;'
-  - python manage.py syncdb --noinput
 
 #command to run the test suite
 script:
-  
   - python manage.py test
