@@ -3,8 +3,6 @@ language: python
 python:
   - "3.8"
 
-services: mysql
-
 env:
     - DJANGO=3.2.7 DB=sqlite3
 
@@ -12,6 +10,7 @@ env:
 install:
   - pip install -q Django==$DJANGO
   - pip install -q -r requirements.txt
+  - pip install coveralls
 
 before_script:
   - cd mysite
@@ -19,3 +18,4 @@ before_script:
 #command to run the test suite
 script:
   - python manage.py test
+  - coverage run --source=department_app manage.py test
