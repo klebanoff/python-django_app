@@ -19,3 +19,4 @@ before_script:
 script:
   - python manage.py test
   - coverage run --source=department_app manage.py test
+  - COVERALLS_REPO_TOKEN=6Ek7za0m3VqoUsFxP2bPq4xWkLYWkB13l coveralls
