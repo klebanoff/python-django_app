@@ -60,3 +60,14 @@ class ModelTesting(TestCase):
         """
         get_avarage_salaty() returns avarage salary
         """
+        testdepartment = Department.objects.create(department_name = 'test depatrment 1')
+        employee1 = Employee.objects.create(employee_name = 'employee 1',
+        date_of_birth = '2000-1-1',
+        salary = 200,
+        department = testdepartment)
+        employee1 = Employee.objects.create(employee_name = 'employee 2',
+        date_of_birth = '2000-1-1',
+        salary = 300,
+        department = testdepartment)
+        avarage_salary = testdepartment.get_avarage_salaty()
+        self.assertEqual(avarage_salary, 250)
