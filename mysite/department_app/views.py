@@ -48,14 +48,17 @@ def departments(request):
 
 def department(request, department_id):
     """list view of one department"""
-    department= Department.objects.get(pk=department_id)
-    if request.method == "POST":
-        department.department_name = request.POST.get("department_name")
-        department.save()
-        return HttpResponseRedirect(reverse('department_app:department', args=(department_id,)) )
-    else:
-        return render(request, "department_app/department.html",
-    {'department': department})
+    try:
+        department= Department.objects.get(pk=department_id)
+        if request.method == "POST":
+            department.department_name = request.POST.get("department_name")
+            department.save()
+            return HttpResponseRedirect(reverse('department_app:department', args=(department_id,)) )
+        else:
+            return render(request, "department_app/department.html",
+            {'department': department})
+    except Department.DoesNotExist:
+        return HttpResponseNotFound("<h2>Department not found</h2>")
 
 def delete_department(request, department_id):
     """view for deleting departments"""
