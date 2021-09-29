@@ -10,12 +10,7 @@ from department_app.models import Department, Employee
 
 
 
-#class RestTesting(TestCase):
-#    def department_serializer_works(self):
-#        d=Department.objectss.get(pk=1)
-#        e=Employee.objectss.get(pk=1)
-#        sd=DepartmentSerializer(d)
-#        sd.data
+
 class DepartmentsIndexViev(TestCase):
     """
     Tests of departments list view
@@ -211,6 +206,48 @@ class NewEmployeeView(TestCase):
         response = self.client.get(reverse('department_app:employees', args=(testdepartment.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'new employee')
+
+class DeleteEmployee(TestCase):
+    """delete_employee view testing"""
+
+    def test_delete_view(self):
+        """
+        deleting one employee
+        """
+        testdepartment = Department.objects.create(department_name='test depatrment 1')
+        emp = Employee.objects.create(employee_name='employee 1',
+                                      date_of_birth='2000-1-1',
+                                      salary=200,
+                                      department=testdepartment)
+        client = Client()
+        client.get(reverse('department_app:delete_employee', args=(testdepartment.id, emp.id,)))
+        response = self.client.get(reverse('department_app:employees', args=(testdepartment.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No employees available")
+
+class EditEmployee(TestCase):
+    """
+    tests for edit employee view
+    """
+    def test_post_request_to_rename_emp(self):
+        """
+        POST request to rename employee
+        """
+        testdepartment = Department.objects.create(department_name='test depatrment 1')
+        emp = Employee.objects.create(employee_name='employee 1',
+                                date_of_birth='2000-1-1',
+                                salary=200,
+                                department=testdepartment)
+        client = Client()
+        client.post(reverse('department_app:employee',
+                            args=(testdepartment.id, emp.id,)),
+                    {'employee_name': 'renamed employee',
+                     'date_of_birth': '2000-1-1',
+                     'salary': '200',
+                    })
+        response = self.client.get(reverse('department_app:employee', args=(testdepartment.id, emp.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'renamed employee')
 
 class ModelTesting(TestCase):
     """
