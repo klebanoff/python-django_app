@@ -16,7 +16,9 @@ Detailed view of department:
 ![department](/images/department.png)
 
 List of employees:
+
 ![employees](/images/employes.png)
 
 Detailed view of employee:
+
 ![employee](/images/employee.png)
